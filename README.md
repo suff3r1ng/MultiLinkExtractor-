@@ -13,9 +13,10 @@ A tool for quickly extracting and generating links from FuckingFast and DataNode
 ## Setup
 1. Install Python (version 3.6 or higher recommended)
 2. Clone or download this repository
-3. Create a file named `links.txt` in the main directory
-4. Add your FuckingFast and DataNodes links to `links.txt` (one link per line)
-5. Run the script using `python main.py` or the appropriate command for your system
+3. Install modules `pip install -r requirements.txt`
+4. Create a file named `links.txt` in the main directory
+5. Add your FuckingFast and DataNodes links to `links.txt` (one link per line)
+6. Run the script using `python main.py` or the appropriate command for your system
 
 ## Usage
 1. After setup, run the application
