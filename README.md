@@ -1,4 +1,4 @@
-# Downloadlink Extract
+# MultiLinkExtractor 
 
 A tool for quickly extracting and generating links from FuckingFast and DataNodes services.
 
