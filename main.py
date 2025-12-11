@@ -90,24 +90,24 @@ async def process_links(urls):
                 if "fuckingfast.co" in parsed_url.netloc:
                     service_name = "Fuckingfast"
                     progress = f"[{index + 1}/{total_urls}] Processing {service_name}"
-                    print(f"{Fore.YELLOW}║ {Fore.CYAN}{progress:<68}{Fore.YELLOW}║")
                     set_console_title(f"Fuckingfast Link Generator - {index + 1}/{total_urls}")
+                    print(f"{Fore.YELLOW}║ {Fore.CYAN}{progress:<68}{Fore.YELLOW} ║")
                     download_link = await get_fuckingfast_link(session, url)
                 elif "datanodes.to" in parsed_url.netloc:
                     service_name = "Datanodes"
                     progress = f"[{index + 1}/{total_urls}] Processing {service_name}"
-                    print(f"{Fore.YELLOW}║ {Fore.CYAN}{progress:<68}{Fore.YELLOW}║")
+                    print(f"{Fore.YELLOW}║ {Fore.CYAN}{progress:<68}{Fore.YELLOW} ║")
                     set_console_title(f"Datanodes Link Generator - {index + 1}/{total_urls}")
                     download_link = await get_datanodes_link(session, url)
                 
                 if download_link:
                     successful += 1
                     status_msg = f"✓ {service_name} link extracted"
-                    print(f"{Fore.YELLOW}║ {Fore.GREEN}{status_msg:<68}{Fore.YELLOW}║")
+                    print(f"{Fore.YELLOW}║ {Fore.GREEN}{status_msg:<68}{Fore.YELLOW} ║")
                 else:
                     failed_urls.append(url)
                     status_msg = f"✗ Failed to extract {service_name} link"
-                    print(f"{Fore.YELLOW}║ {Fore.RED}{status_msg:<68}{Fore.YELLOW}║")
+                    print(f"{Fore.YELLOW}║ {Fore.RED}{status_msg:<68}{Fore.YELLOW} ║")
                 
                 results.append({
                     "original_url": url,
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     
     print("\n")
     print(f"{Fore.CYAN}{Style.BRIGHT}{'╔' + '═' * 48 + '╗'}")
-    print(f"{Fore.CYAN}{Style.BRIGHT}║{' ' * 18}SUMMARY REPORT{' ' * 17}║")
+    print(f"{Fore.CYAN}{Style.BRIGHT}║{' ' * 18}SUMMARY REPORT{' ' * 16}║")
     print(f"{Fore.CYAN}{Style.BRIGHT}{'╠' + '═' * 48 + '╣'}")
     
     success_color = Fore.GREEN if stats['success_rate'] > 80 else Fore.YELLOW if stats['success_rate'] > 50 else Fore.RED
@@ -166,8 +166,8 @@ if __name__ == "__main__":
     print(f"{Fore.CYAN}{Style.BRIGHT}║ {Fore.WHITE}Total URLs processed:{' ' * 16}{stats['total']:<10}{Fore.CYAN}{Style.BRIGHT}║")
     print(f"{Fore.CYAN}{Style.BRIGHT}║ {Fore.GREEN}Successful extractions:{' ' * 14}{stats['successful']:<10}{Fore.CYAN}{Style.BRIGHT}║")
     print(f"{Fore.CYAN}{Style.BRIGHT}║ {Fore.RED}Failed extractions:{' ' * 18}{stats['failed']:<10}{Fore.CYAN}{Style.BRIGHT}║")
-    print(f"{Fore.CYAN}{Style.BRIGHT}║ {success_color}Success rate:{' ' * 24}{stats['success_rate']:.2f}%{' ' * 5}{Fore.CYAN}{Style.BRIGHT}║")
-    print(f"{Fore.CYAN}{Style.BRIGHT}║ {Fore.WHITE}Time elapsed:{' ' * 24}{stats['elapsed_time']:.2f}s{' ' * 4}{Fore.CYAN}{Style.BRIGHT}║")
+    print(f"{Fore.CYAN}{Style.BRIGHT}║ {success_color}Success rate:{' ' * 24}{stats['success_rate']:.2f}%{' ' * 3}{Fore.CYAN}{Style.BRIGHT}║")
+    print(f"{Fore.CYAN}{Style.BRIGHT}║ {Fore.WHITE}Time elapsed:{' ' * 24}{stats['elapsed_time']:.2f}s{' ' * 5}{Fore.CYAN}{Style.BRIGHT}║")
     print(f"{Fore.CYAN}{Style.BRIGHT}{'╚' + '═' * 48 + '╝'}")
     
     if stats['failed'] > 0:
