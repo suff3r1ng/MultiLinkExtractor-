@@ -131,29 +131,15 @@ async def process_links(urls):
             }
         }
 
-if __name__ == "__main__":
-    if not os.path.exists("links.txt"):
-        with open("links.txt", "w") as file:
-            print(f"{Fore.RED}[!] Created empty links.txt file. Please add URLs and run again.")
-            exit()
-            
-    with open("links.txt", "r") as file:
-        urls = [url.strip() for url in file.readlines() if url.strip()]
-    
-    if not urls:
-        print(f"{Fore.RED}[!] No URLs found in links.txt")
-        exit()
-    
-    print(f"{Fore.CYAN}[*] Starting processing of {len(urls)} URLs...")
-    result_data = asyncio.run(process_links(urls))
-    
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    
-    with open(f"outputs_links_{timestamp}.txt", "w", encoding="utf-8") as output_file:
+def write_results(result_data, timestamp):
+    output_filename = f"outputs_links_{timestamp}.txt"
+    with open(output_filename, "w", encoding="utf-8") as output_file:
         for item in result_data["results"]:
             if item["download_link"]:
                 output_file.write(f"{item['download_link']}\n")
-    
+    print(f"\n{Fore.GREEN}[*] Download links saved to {Fore.YELLOW}{output_filename}")
+
+def print_summary(result_data):
     stats = result_data["stats"]
     
     print("\n")
@@ -176,8 +162,6 @@ if __name__ == "__main__":
         for i, failed_url in enumerate(stats['failed_urls'], 1):
             print(f"{Fore.RED}{i}. {failed_url}")
     
-    print(f"\n{Fore.GREEN}[*] Download links saved to {Fore.YELLOW}outputs_links_{timestamp}.txt")
-    
     # Service-specific stats
     service_stats = {}
     for result in result_data["results"]:
@@ -193,7 +177,31 @@ if __name__ == "__main__":
     if service_stats:
         print(f"\n{Fore.CYAN}{Style.BRIGHT}SERVICE-SPECIFIC STATS:")
         print(f"{Fore.CYAN}{'─' * 50}")
-        for service, stats in service_stats.items():
-            success_rate = (stats["success"] / stats["total"]) * 100 if stats["total"] > 0 else 0
+        for service, s_stats in service_stats.items():
+            success_rate = (s_stats["success"] / s_stats["total"]) * 100 if s_stats["total"] > 0 else 0
             status_color = Fore.GREEN if success_rate > 80 else Fore.YELLOW if success_rate > 50 else Fore.RED
-            print(f"{Fore.WHITE}{service}: {status_color}{stats['success']}/{stats['total']} ({success_rate:.2f}%)")
+            print(f"{Fore.WHITE}{service}: {status_color}{s_stats['success']}/{s_stats['total']} ({success_rate:.2f}%)")
+
+def main():
+    if not os.path.exists("links.txt"):
+        with open("links.txt", "w") as file:
+            print(f"{Fore.RED}[!] Created empty links.txt file. Please add URLs and run again.")
+            exit()
+
+    with open("links.txt", "r") as file:
+        urls = [url.strip() for url in file.readlines() if url.strip()]
+
+    if not urls:
+        print(f"{Fore.RED}[!] No URLs found in links.txt")
+        exit()
+
+    print(f"{Fore.CYAN}[*] Starting processing of {len(urls)} URLs...")
+    result_data = asyncio.run(process_links(urls))
+
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+    write_results(result_data, timestamp)
+    print_summary(result_data)
+
+if __name__ == "__main__":
+    main()
