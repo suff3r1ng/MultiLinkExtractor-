@@ -39,6 +39,8 @@ async def get_fuckingfast_link(session, download_url):
 async def get_datanodes_link(session, download_url):
     parsed_url = urlparse(download_url)
     path_segments = parsed_url.path.split("/")
+    if len(path_segments) < 2 or not path_segments[1]:
+        return None
     file_code = path_segments[1].encode("latin-1", "ignore").decode("latin-1")
     file_name = path_segments[-1].encode("latin-1", "ignore").decode("latin-1")
     headers = {
